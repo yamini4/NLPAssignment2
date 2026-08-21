@@ -13,9 +13,9 @@ from sklearn.model_selection import train_test_split
 DATA_PATH = "data/processed/parallel_corpus.csv"
 PROCESSED_DIR = "data/processed"
 ARTIFACTS_DIR = "artifacts"
-MAX_SOURCE_LENGTH = 20
-MAX_TARGET_LENGTH = 20
-MIN_FREQUENCY = 2
+MAX_SOURCE_LENGTH = 30
+MAX_TARGET_LENGTH = 30
+MIN_FREQUENCY = 3
 RANDOM_SEED = 42
 # SPECIAL TOKENS
 PAD_TOKEN = "<pad>"
@@ -84,9 +84,9 @@ def tokenize_english(text):
     """
     text = text.lower()
     tokens = re.findall(
-        r"\w+|[^\w\s]",
-        text,
-        flags=re.UNICODE
+    r"[\u0900-\u097F]+|[0-9]+|[^\w\s]",
+    text,
+    flags=re.UNICODE
     )
     return tokens
 # 5. HINDI TOKENIZATION

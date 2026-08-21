@@ -1,0 +1,263 @@
+======================================================================
+ENGLISH -> HINDI TRANSLATION EXAMPLES
+======================================================================
+
+Example 1
+----------------------------------------------------------------------
+English:
+shanty
+
+Reference Hindi:
+आशियाना
+
+Predicted Hindi:
+<unk>
+
+Word Accuracy: 0.0000
+
+Example 2
+----------------------------------------------------------------------
+English:
+It is a favorite medieval motif depicted on such architectural members as the Sukannasa and the door-sill.
+
+Reference Hindi:
+यह सुकन्नासा और द्वार - दील जैसे वास्तुशिल्प सदस्यों पर चित्रित एक पसंदीदा मध्ययुगीन रूप है।
+
+Predicted Hindi:
+<unk> <unk> के <unk> के <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+
+Word Accuracy: 0.0000
+
+Example 3
+----------------------------------------------------------------------
+English:
+He cultivated the traditional forms of physical exercise and though he could not always get a nourishing diet, he built a strong body, and maintained it till the end.
+
+Reference Hindi:
+उन्होंने पारम्पारिक व्यायामों का लगकर अभ्यास किया और पौष्टिक आहार की सब दिन सुविधा न रहते भी, शरीर को सदा सुस्वस्थ रखा।
+
+Predicted Hindi:
+<unk> <unk> के <unk> के <unk> के <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+
+Word Accuracy: 0.0000
+
+Example 4
+----------------------------------------------------------------------
+English:
+clove
+
+Reference Hindi:
+चंदकपुष्प
+
+Predicted Hindi:
+<unk>
+
+Word Accuracy: 0.0000
+
+Example 5
+----------------------------------------------------------------------
+English:
+Path to "cvs" command
+
+Reference Hindi:
+पथ को कमांड
+
+Predicted Hindi:
+<unk> <unk> <unk> <unk> <unk>
+
+Word Accuracy: 0.0000
+
+Example 6
+----------------------------------------------------------------------
+English:
+In Pashupatinath, they always had priests from Mysore, now Karnataka.
+
+Reference Hindi:
+पशुपतिनाथ में मैसूर के पुजारी होते हैं जिसे अब कर्नाटक कहा जाता है।
+
+Predicted Hindi:
+<unk> <unk> के <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+
+Word Accuracy: 0.0000
+
+Example 7
+----------------------------------------------------------------------
+English:
+Delhi Durbars
+
+Reference Hindi:
+दिल्ली दरबार
+
+Predicted Hindi:
+<unk>
+
+Word Accuracy: 0.0000
+
+Example 8
+----------------------------------------------------------------------
+English:
+red
+
+Reference Hindi:
+आततायी
+
+Predicted Hindi:
+<unk>
+
+Word Accuracy: 0.0000
+
+Example 9
+----------------------------------------------------------------------
+English:
+It stands testimony to the intimate connection of these communities with nature and their sustainable use of natural resources.
+
+Reference Hindi:
+यह प्रकृति और प्राकृतिक संसाधनों के उनके पक्के उपयोग के साथ इन समुदायों के अंतरंग संबंध का प्रमाण देता है।
+
+Predicted Hindi:
+<unk> <unk> के <unk> के <unk> के <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+
+Word Accuracy: 0.0000
+
+Example 10
+----------------------------------------------------------------------
+English:
+Add Address Book
+
+Reference Hindi:
+पता पुस्तिका जोड़ें
+
+Predicted Hindi:
+<unk>
+
+Word Accuracy: 0.0000
+
+Example 11
+----------------------------------------------------------------------
+English:
+What is the crash?
+
+Reference Hindi:
+वह खड़खड़ाने वाली क्या है
+
+Predicted Hindi:
+<unk> <unk> <unk>
+
+Word Accuracy: 0.0000
+
+Example 12
+----------------------------------------------------------------------
+English:
+The boy was growing fast and though he was by no means idling away his years, the Maharshi and the elders were worried about his future.
+
+Reference Hindi:
+बालक रवि बड़ी तेजी से बढ़ रहा था और वह इन वर्षों में कभी निष्क्रिय नहीं बैठा था - - स्वयं महर्षि और घर के दूसरे बुजुर्ग उसके भविष्य को लेकर बड़े चिंतित थे।
+
+Predicted Hindi:
+<unk> <unk> के <unk> के <unk> के <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+
+Word Accuracy: 0.0000
+
+Example 13
+----------------------------------------------------------------------
+English:
+Ngando climbed out onto the river bank to thank Hare for helping him back to the pool where he belonged.
+
+Reference Hindi:
+न्गांदो अब अपनी मदद करने के लिए खरहे को धन्यवाद देने को पानी से निकलकर किनारे पर आया कि उसकी मदद से वह अपने छपरे में फिर वापस आ पाया।
+
+Predicted Hindi:
+<unk> <unk> के <unk> के <unk> के <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+
+Word Accuracy: 0.0000
+
+Example 14
+----------------------------------------------------------------------
+English:
+_ Delegate Meeting...
+
+Reference Hindi:
+डेलिगेट मीटिंग ( ) . . .
+
+Predicted Hindi:
+<unk> <unk>
+
+Word Accuracy: 0.0000
+
+Example 15
+----------------------------------------------------------------------
+English:
+A Day shall come whereon the quaking will quake,
+
+Reference Hindi:
+जिस दिन हिला डालेगी हिला डालनेवाले घटना,
+
+Predicted Hindi:
+<unk> <unk> के <unk> <unk> <unk> <unk> <unk> <unk>
+
+Word Accuracy: 0.0000
+
+Example 16
+----------------------------------------------------------------------
+English:
+They have said, "How can we be brought to life again after we have been lost in the earth?" In fact, they have no faith in the Day of Judgment
+
+Reference Hindi:
+और ये लोग कहते हैं कि जब हम ज़मीन में नापैद हो जाएँगे तो क्या हम फिर नया जन्म लेगे ( क़यामत से नही ) बल्कि ये लोग अपने परवरदिगार के ( सामने हुज़ूरी ही ) से इन्कार रखते हैं
+
+Predicted Hindi:
+<unk> <unk> के <unk> के <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+
+Word Accuracy: 0.0000
+
+Example 17
+----------------------------------------------------------------------
+English:
+life history
+
+Reference Hindi:
+जीवनी
+
+Predicted Hindi:
+<unk>
+
+Word Accuracy: 0.0000
+
+Example 18
+----------------------------------------------------------------------
+English:
+Ascertaining whether the utilization of issue funds has been made for the purposes and in a manner as envisaged by the Offer Document;
+
+Reference Hindi:
+इस बात का पता लगाना कि निर्गम से प्राप्त निधियों का उपयोग प्रस्ताव दस्तावेज में यथानिर्दिष्ट प्रयोजनों और तरीके से किया गया है।
+
+Predicted Hindi:
+<unk> <unk> के <unk> के <unk> के <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+
+Word Accuracy: 0.0000
+
+Example 19
+----------------------------------------------------------------------
+English:
+Puerperal Convulsions
+
+Reference Hindi:
+प्रासूतिक आक्षेप, प्रसव के दौरान पड़ने वाला दौरा
+
+Predicted Hindi:
+<unk>
+
+Word Accuracy: 0.0000
+
+Example 20
+----------------------------------------------------------------------
+English:
+Contact list 's name
+
+Reference Hindi:
+सूची नाम से संपर्क करें
+
+Predicted Hindi:
+<unk> <unk>
+
+Word Accuracy: 0.0000

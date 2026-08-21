@@ -7,8 +7,6 @@
         ↓
 ✅ plot_training.py
         ↓
-✅ translate.py
-        ↓
 ✅ evaluate.py
         ↓
 ✅ app.py (Streamlit)

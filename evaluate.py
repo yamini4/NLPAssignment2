@@ -7,7 +7,6 @@ import re
 import json
 import pandas as pd
 import torch
-import torch.nn as nn
 from nltk.translate.bleu_score import (
     corpus_bleu,
     SmoothingFunction
@@ -40,13 +39,16 @@ TRANSLATIONS_FILE = os.path.join(
     ARTIFACTS_DIR,
     "sample_translations.txt"
 )
-# CONFIGURATION FROM TRAINING
+# MODEL CONFIGURATION
+# MUST MATCH TRAINING
 MAX_SOURCE_LENGTH = 20
 MAX_TARGET_LENGTH = 20
 EMBEDDING_DIM = 128
 HIDDEN_DIM = 256
 NUM_LAYERS = 1
 DROPOUT = 0.2
+# CPU EVALUATION
+# Set to 0 to evaluate the complete test set.
 NUM_EVALUATION_SAMPLES = 1000
 # SPECIAL TOKENS
 PAD_TOKEN = "<pad>"
@@ -70,14 +72,10 @@ def load_vocabulary(path):
         "r",
         encoding="utf-8"
     ) as file:
-        vocabulary = json.load(
-            file
-        )
+        vocabulary = json.load(file)
     return vocabulary
-# 2. CREATE REVERSE VOCABULARY
-def create_reverse_vocabulary(
-    vocabulary
-):
+# 2. REVERSE VOCABULARY
+def create_reverse_vocabulary(vocabulary):
     return {
         int(index): token
         for token, index
@@ -123,11 +121,18 @@ def pad_sequence(
     eos_index
 ):
     sequence = list(sequence)
+    # --------------------------------------------------------
+    # Truncate
+    # --------------------------------------------------------
     if len(sequence) > max_length:
         sequence = sequence[
             :max_length
         ]
+        # Ensure EOS is present
         sequence[-1] = eos_index
+    # --------------------------------------------------------
+    # Padding
+    # --------------------------------------------------------
     while len(sequence) < max_length:
         sequence.append(
             pad_index
@@ -157,31 +162,7 @@ def process_source(
         vocabulary[EOS_TOKEN]
     )
     return ids
-# 7. PROCESS TARGET SENTENCE
-def process_target(
-    text,
-    vocabulary
-):
-    tokens = tokenize_hindi(
-        text
-    )
-    tokens = (
-        [SOS_TOKEN]
-        + tokens
-        + [EOS_TOKEN]
-    )
-    ids = numericalize(
-        tokens,
-        vocabulary
-    )
-    ids = pad_sequence(
-        ids,
-        MAX_TARGET_LENGTH,
-        vocabulary[PAD_TOKEN],
-        vocabulary[EOS_TOKEN]
-    )
-    return ids
-# 8. LOAD MODEL
+# 7. LOAD TRAINED MODEL
 def load_model(
     source_vocab,
     target_vocab
@@ -200,7 +181,7 @@ def load_model(
         map_location=DEVICE
     )
     # --------------------------------------------------------
-    # Create model architecture
+    # Create same architecture
     # --------------------------------------------------------
     model = create_model(
         source_vocab_size=len(
@@ -227,7 +208,7 @@ def load_model(
         "\nTrained model loaded successfully."
     )
     return model
-# 9. TRANSLATE ONE SENTENCE
+# 8. TRANSLATE ONE SENTENCE
 def translate_sentence(
     model,
     sentence,
@@ -237,7 +218,7 @@ def translate_sentence(
 ):
     model.eval()
     # --------------------------------------------------------
-    # Convert source sentence to IDs
+    # Convert English -> IDs
     # --------------------------------------------------------
     source_ids = process_source(
         sentence,
@@ -251,14 +232,14 @@ def translate_sentence(
     # --------------------------------------------------------
     # Encoder
     # --------------------------------------------------------
-    with torch.no_grad():
+    with torch.inference_mode():
         encoder_outputs, hidden, cell = (
             model.encoder(
                 source_tensor
             )
         )
     # --------------------------------------------------------
-    # Start with <sos>
+    # Start decoder with SOS
     # --------------------------------------------------------
     input_token = torch.tensor(
         [
@@ -276,7 +257,7 @@ def translate_sentence(
     for _ in range(
         MAX_TARGET_LENGTH - 1
     ):
-        with torch.no_grad():
+        with torch.inference_mode():
             output, hidden, cell, _ = (
                 model.decoder(
                     input_token,
@@ -286,21 +267,21 @@ def translate_sentence(
                 )
             )
         # ----------------------------------------------------
-        # Select highest probability token
+        # Greedy decoding
         # ----------------------------------------------------
         prediction = output.argmax(
-            1
+            dim=1
         )
         prediction_id = prediction.item()
         # ----------------------------------------------------
-        # Stop at EOS
+        # EOS -> stop
         # ----------------------------------------------------
         if prediction_id == target_vocab[
             EOS_TOKEN
         ]:
             break
         # ----------------------------------------------------
-        # Ignore padding
+        # Ignore PAD
         # ----------------------------------------------------
         if prediction_id != target_vocab[
             PAD_TOKEN
@@ -314,27 +295,8 @@ def translate_sentence(
             )
         input_token = prediction
     return generated_tokens
-# 10. CLEAN TOKENS
-def clean_tokens(
-    tokens
-):
-    cleaned = []
-    for token in tokens:
-        if token in [
-            PAD_TOKEN,
-            SOS_TOKEN
-        ]:
-            continue
-        if token == EOS_TOKEN:
-            break
-        cleaned.append(
-            token
-        )
-    return cleaned
-# 11. DETOKENIZE
-def detokenize(
-    tokens
-):
+# 9. DETOKENIZE
+def detokenize(tokens):
     text = " ".join(
         tokens
     )
@@ -351,13 +313,17 @@ def detokenize(
         text
     )
     return text.strip()
-# 12. WORD ACCURACY
+# 10. WORD ACCURACY
 def calculate_word_accuracy(
     predicted,
     reference
 ):
     if len(reference) == 0:
-        return 1.0 if len(predicted) == 0 else 0.0
+        return (
+            1.0
+            if len(predicted) == 0
+            else 0.0
+        )
     correct = 0
     for i in range(
         min(
@@ -371,7 +337,7 @@ def calculate_word_accuracy(
         correct /
         len(reference)
     )
-# 13. EVALUATE MODEL
+# 11. EVALUATE MODEL
 def evaluate_model(
     model,
     test_df,
@@ -387,6 +353,9 @@ def evaluate_model(
     hypotheses = []
     exact_matches = 0
     total_word_accuracy = 0.0
+    total_generated_words = 0
+    total_reference_words = 0
+    total_unknown_tokens = 0
     translation_records = []
     print("\n" + "=" * 70)
     print("EVALUATING TEST DATA")
@@ -395,6 +364,9 @@ def evaluate_model(
         f"\nEvaluation samples: "
         f"{len(test_df)}"
     )
+    # --------------------------------------------------------
+    # Evaluation loop
+    # --------------------------------------------------------
     for index, row in test_df.iterrows():
         source_text = str(
             row["English"]
@@ -403,7 +375,7 @@ def evaluate_model(
             row["Hindi"]
         )
         # ----------------------------------------------------
-        # Generate translation
+        # Translate
         # ----------------------------------------------------
         predicted_tokens = (
             translate_sentence(
@@ -420,12 +392,50 @@ def evaluate_model(
         reference_tokens = tokenize_hindi(
             reference_text
         )
-        predicted_tokens = clean_tokens(
-            predicted_tokens
+        # ----------------------------------------------------
+        # Remove special tokens if present
+        # ----------------------------------------------------
+        reference_tokens = [
+            token
+            for token in reference_tokens
+            if token not in [
+                PAD_TOKEN,
+                SOS_TOKEN,
+                EOS_TOKEN
+            ]
+        ]
+        predicted_tokens = [
+            token
+            for token in predicted_tokens
+            if token not in [
+                PAD_TOKEN,
+                SOS_TOKEN,
+                EOS_TOKEN
+            ]
+        ]
+        # ----------------------------------------------------
+        # Count UNK tokens
+        # ----------------------------------------------------
+        unknown_count = sum(
+            1
+            for token in predicted_tokens
+            if token == UNK_TOKEN
         )
-        reference_tokens = clean_tokens(
-            reference_tokens
+        total_unknown_tokens += (
+            unknown_count
         )
+        # ----------------------------------------------------
+        # Length statistics
+        # ----------------------------------------------------
+        total_generated_words += (
+            len(predicted_tokens)
+        )
+        total_reference_words += (
+            len(reference_tokens)
+        )
+        # ----------------------------------------------------
+        # Text
+        # ----------------------------------------------------
         predicted_text = detokenize(
             predicted_tokens
         )
@@ -454,7 +464,7 @@ def evaluate_model(
             word_accuracy
         )
         # ----------------------------------------------------
-        # BLEU data
+        # BLEU
         # ----------------------------------------------------
         references.append(
             [reference_tokens]
@@ -463,7 +473,7 @@ def evaluate_model(
             predicted_tokens
         )
         # ----------------------------------------------------
-        # Save record
+        # Save translation record
         # ----------------------------------------------------
         translation_records.append(
             {
@@ -488,9 +498,9 @@ def evaluate_model(
                 f"{index + 1}/"
                 f"{len(test_df)}"
             )
-    
+    # ========================================================
     # BLEU SCORE
-    
+    # ========================================================
     smoothing = (
         SmoothingFunction()
         .method4
@@ -500,9 +510,9 @@ def evaluate_model(
         hypotheses,
         smoothing_function=smoothing
     )
-    
+    # ========================================================
     # METRICS
-    
+    # ========================================================
     total_samples = len(
         test_df
     )
@@ -514,13 +524,31 @@ def evaluate_model(
         total_word_accuracy /
         total_samples
     )
+    average_generated_length = (
+        total_generated_words /
+        total_samples
+    )
+    average_reference_length = (
+        total_reference_words /
+        total_samples
+    )
+    if total_generated_words > 0:
+        unk_percentage = (
+            total_unknown_tokens /
+            total_generated_words
+        ) * 100
+    else:
+        unk_percentage = 0.0
     return (
         bleu_score,
         exact_match_accuracy,
         average_word_accuracy,
+        average_generated_length,
+        average_reference_length,
+        unk_percentage,
         translation_records
     )
-# 14. SAVE TRANSLATION EXAMPLES
+# 12. SAVE TRANSLATION EXAMPLES
 def save_translation_examples(
     records,
     number_of_examples=20
@@ -581,11 +609,14 @@ def save_translation_examples(
         f"\nSample translations saved at:"
         f"\n{TRANSLATIONS_FILE}"
     )
-# 15. SAVE EVALUATION RESULTS
+# 13. SAVE RESULTS
 def save_results(
     bleu_score,
     exact_match_accuracy,
     average_word_accuracy,
+    average_generated_length,
+    average_reference_length,
+    unk_percentage,
     total_samples
 ):
     results = {
@@ -593,10 +624,22 @@ def save_results(
             total_samples,
         "bleu_score":
             bleu_score,
+        "bleu_score_percent":
+            bleu_score * 100,
         "exact_match_accuracy":
             exact_match_accuracy,
+        "exact_match_accuracy_percent":
+            exact_match_accuracy * 100,
         "average_word_accuracy":
-            average_word_accuracy
+            average_word_accuracy,
+        "average_word_accuracy_percent":
+            average_word_accuracy * 100,
+        "average_generated_length":
+            average_generated_length,
+        "average_reference_length":
+            average_reference_length,
+        "unknown_token_percentage":
+            unk_percentage
     }
     with open(
         RESULTS_FILE,
@@ -613,7 +656,7 @@ def save_results(
         f"\nEvaluation results saved at:"
         f"\n{RESULTS_FILE}"
     )
-# 16. MAIN
+# 14. MAIN
 def main():
     print("=" * 70)
     print("ENGLISH -> HINDI NMT EVALUATION")
@@ -622,7 +665,7 @@ def main():
         f"\nDevice: {DEVICE}"
     )
     # --------------------------------------------------------
-    # Create artifacts directory
+    # Artifacts directory
     # --------------------------------------------------------
     os.makedirs(
         ARTIFACTS_DIR,
@@ -649,6 +692,28 @@ def main():
         f"{len(target_vocab)}"
     )
     # --------------------------------------------------------
+    # Print special token IDs
+    # --------------------------------------------------------
+    print(
+        "\nSpecial tokens:"
+    )
+    print(
+        f"PAD: "
+        f"{target_vocab[PAD_TOKEN]}"
+    )
+    print(
+        f"UNK: "
+        f"{target_vocab[UNK_TOKEN]}"
+    )
+    print(
+        f"SOS: "
+        f"{target_vocab[SOS_TOKEN]}"
+    )
+    print(
+        f"EOS: "
+        f"{target_vocab[EOS_TOKEN]}"
+    )
+    # --------------------------------------------------------
     # Load test data
     # --------------------------------------------------------
     print(
@@ -663,7 +728,7 @@ def main():
         f"{len(test_df)}"
     )
     # --------------------------------------------------------
-    # Limit evaluation for CPU
+    # Limit evaluation
     # --------------------------------------------------------
     if (
         NUM_EVALUATION_SAMPLES
@@ -671,10 +736,11 @@ def main():
         len(test_df)
         > NUM_EVALUATION_SAMPLES
     ):
-        test_df = test_df.sample(
-            n=NUM_EVALUATION_SAMPLES,
-            random_state=42
-        ).reset_index(
+        # Use FIRST N samples.
+        # This makes evaluation deterministic.
+        test_df = test_df.iloc[
+            :NUM_EVALUATION_SAMPLES
+        ].reset_index(
             drop=True
         )
     print(
@@ -695,6 +761,9 @@ def main():
         bleu_score,
         exact_match_accuracy,
         average_word_accuracy,
+        average_generated_length,
+        average_reference_length,
+        unk_percentage,
         translation_records
     ) = evaluate_model(
         model,
@@ -702,9 +771,9 @@ def main():
         source_vocab,
         target_vocab
     )
-    
+    # ========================================================
     # DISPLAY RESULTS
-    
+    # ========================================================
     print("\n" + "=" * 70)
     print("NMT EVALUATION RESULTS")
     print("=" * 70)
@@ -732,25 +801,40 @@ def main():
         f"Average Word Accuracy (%):"
         f" {average_word_accuracy * 100:.2f}%"
     )
-    # --------------------------------------------------------
-    # Save results
-    # --------------------------------------------------------
+    print(
+        f"\nAverage Generated Length:"
+        f" {average_generated_length:.2f}"
+    )
+    print(
+        f"Average Reference Length:"
+        f" {average_reference_length:.2f}"
+    )
+    print(
+        f"\n<unk> Percentage:"
+        f" {unk_percentage:.2f}%"
+    )
+    # ========================================================
+    # SAVE RESULTS
+    # ========================================================
     save_results(
         bleu_score,
         exact_match_accuracy,
         average_word_accuracy,
+        average_generated_length,
+        average_reference_length,
+        unk_percentage,
         len(test_df)
     )
-    # --------------------------------------------------------
-    # Save translations
-    # --------------------------------------------------------
+    # ========================================================
+    # SAVE TRANSLATIONS
+    # ========================================================
     save_translation_examples(
         translation_records,
         number_of_examples=20
     )
-    
+    # ========================================================
     # COMPLETE
-    
+    # ========================================================
     print("\n" + "=" * 70)
     print("EVALUATION COMPLETED SUCCESSFULLY")
     print("=" * 70)
