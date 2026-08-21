@@ -2,7 +2,6 @@
 # PART 3: NMT TRAINING
 # English -> Hindi
 # Encoder-Decoder LSTM with Attention
-
 import os
 import json
 import random
@@ -14,9 +13,7 @@ import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 from model import create_model
-
 # CONFIGURATION
-
 DATA_DIR = "data/processed"
 ARTIFACTS_DIR = "artifacts"
 TRAIN_FILE = os.path.join(
@@ -43,35 +40,27 @@ HISTORY_FILE = os.path.join(
     ARTIFACTS_DIR,
     "training_history.json"
 )
-
 # TRAINING PARAMETERS
-
 BATCH_SIZE = 64
 NUM_EPOCHS = 3
 LEARNING_RATE = 0.001
 CLIP = 1.0
 TEACHER_FORCING_RATIO = 0.5
-MAX_SOURCE_LENGTH = 30
-MAX_TARGET_LENGTH = 30
+MAX_SOURCE_LENGTH = 20
+MAX_TARGET_LENGTH = 20
 RANDOM_SEED = 42
-
 # SPECIAL TOKENS
-
 PAD_TOKEN = "<pad>"
 UNK_TOKEN = "<unk>"
 SOS_TOKEN = "<sos>"
 EOS_TOKEN = "<eos>"
-
 # DEVICE
-
 DEVICE = torch.device(
     "cuda"
     if torch.cuda.is_available()
     else "cpu"
 )
-
 # SET RANDOM SEEDS
-
 def set_seed():
     random.seed(
         RANDOM_SEED
@@ -86,9 +75,7 @@ def set_seed():
         torch.cuda.manual_seed_all(
             RANDOM_SEED
         )
-
 # 1. LOAD VOCABULARY
-
 def load_vocabulary(path):
     with open(
         path,
@@ -99,9 +86,7 @@ def load_vocabulary(path):
             file
         )
     return vocabulary
-
 # 2. TOKENIZATION
-
 def tokenize_english(text):
     import re
     text = str(text).lower()
@@ -113,16 +98,13 @@ def tokenize_english(text):
     return tokens
 def tokenize_hindi(text):
     text = str(text)
-    text = re.sub(
-        r"([।,!?;:()\[\]{}\"'“”‘’\-–—/])",
-        r" \1 ",
-        text
+    tokens = re.findall(
+        r"[\u0900-\u097F]+|[0-9]+|[^\w\s]",
+        text,
+        flags=re.UNICODE
     )
-    tokens = text.split()
     return tokens
-
 # 3. NUMERICALIZE
-
 def numericalize(
     tokens,
     vocabulary
@@ -137,9 +119,7 @@ def numericalize(
         )
         for token in tokens
     ]
-
 # 4. PAD / TRUNCATE
-
 def pad_sequence(
     sequence,
     max_length,
@@ -163,9 +143,7 @@ def pad_sequence(
             pad_index
         )
     return sequence
-
 # 5. PROCESS SENTENCE
-
 def process_source(
     text,
     vocabulary
@@ -212,9 +190,7 @@ def process_target(
         vocabulary[EOS_TOKEN]
     )
     return ids
-
 # 6. DATASET CLASS
-
 class TranslationDataset(Dataset):
     def __init__(
         self,
@@ -251,9 +227,7 @@ class TranslationDataset(Dataset):
                 dtype=torch.long
             )
         )
-
 # 7. LOAD DATA
-
 def load_data():
     print("=" * 70)
     print("LOADING TRAINING DATA")
@@ -261,11 +235,20 @@ def load_data():
     train_df = pd.read_csv(
         TRAIN_FILE,
         encoding="utf-8-sig"
-    )
+        )
     val_df = pd.read_csv(
         VAL_FILE,
         encoding="utf-8-sig"
-    )
+        )
+        # CPU-friendly experiment
+    train_df = train_df.sample(
+        n=min(5000, len(train_df)),
+        random_state=RANDOM_SEED
+        ).reset_index(drop=True)
+    val_df = val_df.sample(
+        n=min(1000, len(val_df)),
+        random_state=RANDOM_SEED
+        ).reset_index(drop=True)
     print(
         f"Training samples   : {len(train_df)}"
     )
@@ -276,9 +259,7 @@ def load_data():
         train_df,
         val_df
     )
-
 # 8. CREATE DATALOADERS
-
 def create_dataloaders(
     train_df,
     val_df,
@@ -309,9 +290,7 @@ def create_dataloaders(
         train_loader,
         val_loader
     )
-
 # 9. TRAIN ONE EPOCH
-
 def train_epoch(
     model,
     loader,
@@ -394,9 +373,7 @@ def train_epoch(
         epoch_loss /
         len(loader)
     )
-
 # 10. VALIDATION
-
 def evaluate(
     model,
     loader,
@@ -442,9 +419,7 @@ def evaluate(
         epoch_loss /
         len(loader)
     )
-
 # 11. MAIN TRAINING
-
 def main():
     set_seed()
     os.makedirs(
@@ -657,8 +632,6 @@ def main():
     print("\n" + "=" * 70)
     print("NEXT STEP: GENERATE LOSS CURVE")
     print("=" * 70)
-
 # RUN
-
 if __name__ == "__main__":
     main()

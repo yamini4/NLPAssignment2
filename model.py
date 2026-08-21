@@ -2,21 +2,16 @@
 # PART 3: NMT MODEL
 # English -> Hindi
 # Encoder-Decoder LSTM with Attention
-
 import torch
 import torch.nn as nn
-
 # CONFIGURATION
-
 INPUT_DIM = None
 OUTPUT_DIM = None
 EMBEDDING_DIM = 128
 HIDDEN_DIM = 256
 NUM_LAYERS = 1
 DROPOUT = 0.2
-
 # 1. ENCODER
-
 class Encoder(nn.Module):
     def __init__(
         self,
@@ -72,9 +67,7 @@ class Encoder(nn.Module):
             hidden,
             cell
         )
-
 # 2. ATTENTION
-
 class Attention(nn.Module):
     def __init__(
         self,
@@ -143,9 +136,7 @@ class Attention(nn.Module):
             attention,
             dim=1
         )
-
 # 3. DECODER
-
 class Decoder(nn.Module):
     def __init__(
         self,
@@ -266,9 +257,7 @@ class Decoder(nn.Module):
             cell,
             attention_weights.squeeze(1)
         )
-
 # 4. SEQ2SEQ MODEL
-
 class Seq2Seq(nn.Module):
     def __init__(
         self,
@@ -349,9 +338,7 @@ class Seq2Seq(nn.Module):
                 else best_prediction
             )
         return outputs
-
 # 5. CREATE MODEL
-
 def create_model(
     source_vocab_size,
     target_vocab_size,
@@ -411,9 +398,7 @@ def create_model(
         decoder,
         device
     )
-
 # 5. CREATE MODEL
-
 def initialize_weights(m):
     if isinstance(m, nn.Embedding):
         nn.init.normal_(
@@ -546,9 +531,7 @@ def create_model(
         "\nModel created successfully."
     )
     return model
-
 # 6. TEST MODEL
-
 if __name__ == "__main__":
     print("=" * 70)
     print("TESTING NMT MODEL")

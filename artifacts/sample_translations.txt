@@ -1,0 +1,183 @@
+======================================================================
+ENGLISH -> HINDI TRANSLATION EXAMPLES
+======================================================================
+Example 1
+----------------------------------------------------------------------
+English:
+Latitude in degrees
+Reference Hindi:
+भ ौ ग ो ल ि क अक ् ष ा ं श, ड ि ग ् र ी म े ं .
+Predicted Hindi:
+<unk>
+Word Accuracy: 0.0000
+Example 2
+----------------------------------------------------------------------
+English:
+pigheadedness
+Reference Hindi:
+इसर ा र
+Predicted Hindi:
+<unk>
+Word Accuracy: 0.0000
+Example 3
+----------------------------------------------------------------------
+English:
+Could not update out - of - office state
+Reference Hindi:
+स ॉ क े ट नह ी ं बन ा सक ा ः % s
+Predicted Hindi:
+<unk>
+Word Accuracy: 0.0000
+Example 4
+----------------------------------------------------------------------
+English:
+Last night I dreamed that he fell into a deep ravine and disappeared.
+Reference Hindi:
+कल र ा त म ै ं न े सपन ा द े ख ा क ि वह एक गहर ी खड ् ड म े ं ग ि र गय ा ह ै और उसक े ब ा द वह द ि ख ा ई नह ी ं द ि य ा।
+Predicted Hindi:
+<unk>
+Word Accuracy: 0.0000
+Example 5
+----------------------------------------------------------------------
+English:
+1962 Asian Games
+Reference Hindi:
+1962 एश ि य ा ई ख े ल
+Predicted Hindi:
+<unk>
+Word Accuracy: 0.0000
+Example 6
+----------------------------------------------------------------------
+English:
+The middle daughter, Lolita, in particular, jealously clung to Sucharita day and night.
+Reference Hindi:
+व ि श े षतय ा म ा झल ी लडक ी लल ि त ा त ो अपन े ईर ् ष ् य ा - पर ा यण स ् न े ह स े म ा न ो ं स ु चर ि त ा क ो द ि न - र ा त जकड ़ कर ब ा ँ ध े रखन ा च ा हत ी थ ी।
+Predicted Hindi:
+<unk> <unk> के <unk> के <unk> के <unk> के <unk> के <unk> के <unk> के <unk>
+Word Accuracy: 0.0000
+Example 7
+----------------------------------------------------------------------
+English:
+We retain just 25 percent of what we hear.
+Reference Hindi:
+हम ज ि तन ा स ु नत े ह ै उसक ा क े वल 25 फ ी सद ी ह ी रख प ा त े ह ै ं।
+Predicted Hindi:
+<unk>
+Word Accuracy: 0.0000
+Example 8
+----------------------------------------------------------------------
+English:
+Falloff:
+Reference Hindi:
+फ ा लऑफ ः
+Predicted Hindi:
+<unk>
+Word Accuracy: 0.0000
+Example 9
+----------------------------------------------------------------------
+English:
+He stagnates here in this school.
+Reference Hindi:
+वह इस श ा ल ा क े व ा त ा वरण म े ं उद ् व ि ग ् न रहत ा ह ै।
+Predicted Hindi:
+<unk>
+Word Accuracy: 0.0000
+Example 10
+----------------------------------------------------------------------
+English:
+It is estimated that an investment of about Rs. 48, 000 crore would be required for achieving the targets under Bharat Nirman.
+Reference Hindi:
+ऐस ा अन ु म ा न ह ै क ि भ ा रत न ि र ् म ा ण क े अ ं तर ् गत लक ् ष ् य ो ं क ी प ् र ा प ् त ि ह े त ु 48, 000 कर ो ड ़ क े न ि व े श क ी आवश ् य ा कत ा ह ो ग ी।
+Predicted Hindi:
+<unk> <unk> के <unk> के <unk> के <unk> के <unk> के <unk> के <unk> के <unk>
+Word Accuracy: 0.0000
+Example 11
+----------------------------------------------------------------------
+English:
+If set, wrap the lines if the text becomes too wide
+Reference Hindi:
+यद ि न ि यत ह ै, जब प ा ठ ज ् य ा द ा च ौ ड ़ ा ह ो त ो प ं क ् त ि य ा ँ व ् र े प कर े ं
+Predicted Hindi:
+<unk>
+Word Accuracy: 0.0000
+Example 12
+----------------------------------------------------------------------
+English:
+This technique is characteristic of Hindustani music.
+Reference Hindi:
+यह तकन ी क ह ि ं द ु स ् त ा न ी स ं ग ी त क ी व ि श े षत ा ह ै।
+Predicted Hindi:
+<unk>
+Word Accuracy: 0.0000
+Example 13
+----------------------------------------------------------------------
+English:
+locate
+Reference Hindi:
+बसन ा
+Predicted Hindi:
+<unk>
+Word Accuracy: 0.0000
+Example 14
+----------------------------------------------------------------------
+English:
+heat can be seen.
+Reference Hindi:
+गर ् म ी द ि ख ा ई द े ग ी
+Predicted Hindi:
+<unk>
+Word Accuracy: 0.0000
+Example 15
+----------------------------------------------------------------------
+English:
+Hence by inquiring into the truth of the first person oneself one recognizes that one has no existence as a separate entity.
+Reference Hindi:
+इस ी ल ि ए उत ् तम प ु र ु ष स ् वय ं क ी सच ा ई क ी ख ो ज करन े पर स ा धक क ी समझ म े ं आत ा ह ै क ि प ृ थक ् सत ् त ा क े र ू प म े ं त ो उसक ा अस ् त ि त ् व ह ी नह ी ं ह ै।
+Predicted Hindi:
+<unk> <unk> के <unk> के <unk> के <unk> के <unk> के <unk> के <unk> के <unk>
+Word Accuracy: 0.0000
+Example 16
+----------------------------------------------------------------------
+English:
+Software developer
+Reference Hindi:
+प ् र ो ग ् र ा मर
+Predicted Hindi:
+<unk>
+Word Accuracy: 0.0000
+Example 17
+----------------------------------------------------------------------
+English:
+Punjabi
+Reference Hindi:
+प ं ज ा ब ी
+Predicted Hindi:
+<unk>
+Word Accuracy: 0.0000
+Example 18
+----------------------------------------------------------------------
+English:
+I recall John Locke’s dictum that ‘wherever law ends, tyranny begins.’
+Reference Hindi:
+म ु झ े ज ॉ न ल ॉ क क ी यह उक ् त ि स ् मरण आत ी ह ै क ि ' जह ा ं क ा न ू न सम ा प ् त ह ो त ा ह ै वह ी ं स े न ि र ं क ु शत ा श ु र ू ह ो त ी ह ै। '
+Predicted Hindi:
+<unk> <unk> के <unk> के <unk> के <unk> के <unk> के <unk> के <unk>
+Word Accuracy: 0.0000
+Example 19
+----------------------------------------------------------------------
+English:
+In the poem 'Badaliye Sat Rangiye' The Rainbow - coloured cloud, the poet makes the seven - coloured cloud as his messenger and conveys his message to the separated lover.
+Reference Hindi:
+बदल ि य े सतर ं ग ि य े कव ि त ा म े ं कव ि सप ् तर ं ग ी बदल ी क ो द ू त बन ा कर ब ि छ ु ड ़ े प ् र ि यतम तक सन ् द े श भ े जत ा ह ै।
+Predicted Hindi:
+<unk> <unk> के <unk> के <unk> के <unk> के <unk> के <unk> के <unk> के लिए
+Word Accuracy: 0.0000
+Example 20
+----------------------------------------------------------------------
+English:
+0. 02
+Reference Hindi:
+0 . 02
+Predicted Hindi:
+<unk>
+Word Accuracy: 0.0000

@@ -1,7 +1,6 @@
 
 # PART 3: NMT PREPROCESSING
 # English -> Hindi
-
 import os
 import re
 import json
@@ -10,19 +9,15 @@ import pandas as pd
 import torch
 from collections import Counter
 from sklearn.model_selection import train_test_split
-
 # CONFIGURATION
-
 DATA_PATH = "data/processed/parallel_corpus.csv"
 PROCESSED_DIR = "data/processed"
 ARTIFACTS_DIR = "artifacts"
-MAX_SOURCE_LENGTH = 30
-MAX_TARGET_LENGTH = 30
+MAX_SOURCE_LENGTH = 20
+MAX_TARGET_LENGTH = 20
 MIN_FREQUENCY = 2
 RANDOM_SEED = 42
-
 # SPECIAL TOKENS
-
 PAD_TOKEN = "<pad>"
 UNK_TOKEN = "<unk>"
 SOS_TOKEN = "<sos>"
@@ -33,9 +28,7 @@ SPECIAL_TOKENS = [
     SOS_TOKEN,
     EOS_TOKEN
 ]
-
 # 1. LOAD DATASET
-
 def load_dataset():
     if not os.path.exists(DATA_PATH):
         raise FileNotFoundError(
@@ -56,18 +49,14 @@ def load_dataset():
         f"Columns: {list(df.columns)}"
     )
     return df
-
 # 2. UNICODE NORMALIZATION
-
 def normalize_unicode(text):
     text = str(text)
     return unicodedata.normalize(
         "NFC",
         text
     )
-
 # 3. TEXT CLEANING
-
 def clean_text(
     text,
     lowercase=False
@@ -85,9 +74,7 @@ def clean_text(
     if lowercase:
         text = text.lower()
     return text
-
 # 4. ENGLISH TOKENIZATION
-
 def tokenize_english(text):
     """
     Example:
@@ -102,32 +89,25 @@ def tokenize_english(text):
         flags=re.UNICODE
     )
     return tokens
-
 # 5. HINDI TOKENIZATION
-
 def tokenize_hindi(text):
     text = normalize_unicode(text)
-    # Separate common punctuation from words
-    text = re.sub(
-        r"([।,!?;:()\[\]{}\"'“”‘’\-–—/])",
-        r" \1 ",
-        text
+    # Keep Hindi/Devanagari words together.
+    # Also keep numbers and punctuation as separate tokens.
+    tokens = re.findall(
+        r"[\u0900-\u097F]+|[0-9]+|[^\w\s]",
+        text,
+        flags=re.UNICODE
     )
-    # Split only on whitespace
-    tokens = text.split()
     return tokens
-
 # 6. ADD SOS / EOS
-
 def add_special_tokens(tokens):
     return (
         [SOS_TOKEN]
         + tokens
         + [EOS_TOKEN]
     )
-
 # 7. PROCESS ENGLISH SENTENCES
-
 def process_source_sentences(df):
     processed = []
     for text in df["English"]:
@@ -143,9 +123,7 @@ def process_source_sentences(df):
         )
         processed.append(tokens)
     return processed
-
 # 8. PROCESS HINDI SENTENCES
-
 def process_target_sentences(df):
     processed = []
     for text in df["Hindi"]:
@@ -161,9 +139,7 @@ def process_target_sentences(df):
         )
         processed.append(tokens)
     return processed
-
 # 9. BUILD VOCABULARY
-
 def build_vocabulary(
     tokenized_sentences,
     min_frequency=MIN_FREQUENCY
@@ -185,9 +161,7 @@ def build_vocabulary(
                     vocabulary
                 )
     return vocabulary
-
 # 10. NUMERICALIZE
-
 def numericalize(
     tokens,
     vocabulary
@@ -202,9 +176,7 @@ def numericalize(
         )
         for token in tokens
     ]
-
 # 11. PAD / TRUNCATE
-
 def pad_sequence(
     sequence,
     max_length,
@@ -228,9 +200,7 @@ def pad_sequence(
             pad_index
         )
     return sequence
-
 # 12. CONVERT SENTENCES TO TENSORS
-
 def create_tensor_dataset(
     tokenized_sentences,
     vocabulary,
@@ -263,9 +233,7 @@ def create_tensor_dataset(
         numericalized_sentences,
         dtype=torch.long
     )
-
 # 13. TRAIN / VALIDATION / TEST SPLIT
-
 def split_dataset(df):
     train_df, temp_df = train_test_split(
         df,
@@ -303,9 +271,7 @@ def split_dataset(df):
         val_df,
         test_df
     )
-
 # 14. SAVE CSV SPLITS
-
 def save_splits(
     train_df,
     val_df,
@@ -340,9 +306,7 @@ def save_splits(
         encoding="utf-8-sig"
     )
     print("\nCSV splits saved.")
-
 # 15. SAVE VOCABULARY
-
 def save_vocabulary(
     vocabulary,
     filename
@@ -369,9 +333,7 @@ def save_vocabulary(
     print(
         f"Vocabulary saved: {path}"
     )
-
 # 16. SAVE TENSOR
-
 def save_tensor(
     tensor,
     filename
@@ -391,9 +353,7 @@ def save_tensor(
     print(
         f"Tensor saved: {path}"
     )
-
 # 17. DISPLAY TOKENIZATION EXAMPLES
-
 def display_examples(
     train_df,
     source_tokens,
@@ -436,9 +396,7 @@ def display_examples(
             "Hindi IDs:",
             target_tensor[i].tolist()
         )
-
 # 18. MAIN
-
 def main():
     # --------------------------------------------------------
     # Step 1: Load dataset
@@ -689,8 +647,6 @@ def main():
     print(
         "artifacts/test_target.pt"
     )
-
 # RUN
-
 if __name__ == "__main__":
     main()

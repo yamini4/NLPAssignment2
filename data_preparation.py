@@ -1,15 +1,12 @@
 
 # PART 2: DATASET DOWNLOAD, CLEANING AND PREPARATION
 # English -> Hindi NMT
-
 import os
 import re
 import unicodedata
 import pandas as pd
 from datasets import load_dataset
-
 # CONFIGURATION
-
 # Verified English-Hindi parallel corpus
 DATASET_NAME = "cfilt/iitb-english-hindi"
 # Number of sentence pairs required for the project
@@ -26,9 +23,7 @@ OUTPUT_FILE = os.path.join(
     OUTPUT_DIR,
     "parallel_corpus.csv"
 )
-
 # 1. LOAD DATASET FROM HUGGING FACE
-
 def load_parallel_dataset():
     print("=" * 70)
     print("LOADING ENGLISH-HINDI DATASET")
@@ -55,9 +50,7 @@ def load_parallel_dataset():
         f"{dataset.column_names}"
     )
     return dataset
-
 # 2. SELECT ONLY REQUIRED NUMBER OF SENTENCE PAIRS
-
 def sample_dataset(dataset):
     print("\n" + "=" * 70)
     print("SELECTING DATASET SUBSET")
@@ -90,9 +83,7 @@ def sample_dataset(dataset):
         f"{len(dataset)}"
     )
     return dataset
-
 # 3. EXTRACT ENGLISH AND HINDI FROM TRANSLATION FIELD
-
 def convert_to_dataframe(dataset):
     print("\n" + "=" * 70)
     print("CONVERTING DATASET TO DATAFRAME")
@@ -167,9 +158,7 @@ def convert_to_dataframe(dataset):
         list(df.columns)
     )
     return df
-
 # 4. UNICODE NORMALIZATION
-
 def normalize_unicode(text):
     if not isinstance(
         text,
@@ -183,9 +172,7 @@ def normalize_unicode(text):
         text
     )
     return text
-
 # 5. TEXT CLEANING
-
 def clean_text(text):
     # Unicode normalization
     text = normalize_unicode(
@@ -200,9 +187,7 @@ def clean_text(text):
     # Remove leading/trailing spaces
     text = text.strip()
     return text
-
 # 6. CLEAN DATASET
-
 def clean_dataset(df):
     print("\n" + "=" * 70)
     print("CLEANING DATASET")
@@ -321,9 +306,7 @@ def clean_dataset(df):
         len(df)
     )
     return df
-
 # 7. DISPLAY SAMPLE SENTENCES
-
 def display_samples(
     df,
     number_of_samples=10
@@ -349,9 +332,7 @@ def display_samples(
             "Hindi  :",
             df.iloc[i]["Hindi"]
         )
-
 # 8. SAVE DATASET
-
 def save_dataset(df):
     print("\n" + "=" * 70)
     print("SAVING DATASET")
@@ -399,9 +380,7 @@ def save_dataset(df):
         raise RuntimeError(
             "\nERROR: CSV file was not created."
         )
-
 # 9. VERIFY SAVED CSV
-
 def verify_saved_csv():
     print("\n" + "=" * 70)
     print("VERIFYING SAVED CSV")
@@ -436,9 +415,7 @@ def verify_saved_csv():
             index=False
         )
     )
-
 # 10. MAIN PIPELINE
-
 def main():
     # --------------------------------------------------------
     # STEP 1
@@ -507,8 +484,6 @@ def main():
             OUTPUT_FILE
         )
     )
-
 # RUN PROGRAM
-
 if __name__ == "__main__":
     main()

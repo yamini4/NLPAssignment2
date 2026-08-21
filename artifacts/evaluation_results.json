@@ -1,0 +1,6 @@
+{
+    "test_samples": 1000,
+    "bleu_score": 0,
+    "exact_match_accuracy": 0.0,
+    "average_word_accuracy": 0.0
+}
