@@ -42,12 +42,14 @@ HISTORY_FILE = os.path.join(
 )
 # TRAINING PARAMETERS
 BATCH_SIZE = 64
-NUM_EPOCHS = 3
+NUM_EPOCHS = 10
 LEARNING_RATE = 0.001
-CLIP = 1.0
 TEACHER_FORCING_RATIO = 0.5
-MAX_SOURCE_LENGTH = 20
-MAX_TARGET_LENGTH = 20
+
+MAX_SOURCE_LENGTH = 30
+MAX_TARGET_LENGTH = 30
+
+CLIP = 1.0
 RANDOM_SEED = 42
 # SPECIAL TOKENS
 PAD_TOKEN = "<pad>"
@@ -241,14 +243,9 @@ def load_data():
         encoding="utf-8-sig"
         )
         # CPU-friendly experiment
-    train_df = train_df.sample(
-        n=min(5000, len(train_df)),
-        random_state=RANDOM_SEED
-        ).reset_index(drop=True)
-    val_df = val_df.sample(
-        n=min(1000, len(val_df)),
-        random_state=RANDOM_SEED
-        ).reset_index(drop=True)
+    train_df = train_df.reset_index(drop=True)
+    val_df = val_df.reset_index(drop=True)
+    
     print(
         f"Training samples   : {len(train_df)}"
     )
