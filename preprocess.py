@@ -1,6 +1,6 @@
-
 # PART 3: NMT PREPROCESSING
 # English -> Hindi
+# Encoder-Decoder LSTM with Attention
 import os
 import re
 import json
@@ -9,7 +9,9 @@ import pandas as pd
 import torch
 from collections import Counter
 from sklearn.model_selection import train_test_split
+# ============================================================
 # CONFIGURATION
+# ============================================================
 DATA_PATH = "data/processed/parallel_corpus.csv"
 PROCESSED_DIR = "data/processed"
 ARTIFACTS_DIR = "artifacts"
@@ -17,7 +19,9 @@ MAX_SOURCE_LENGTH = 30
 MAX_TARGET_LENGTH = 30
 MIN_FREQUENCY = 3
 RANDOM_SEED = 42
+# ============================================================
 # SPECIAL TOKENS
+# ============================================================
 PAD_TOKEN = "<pad>"
 UNK_TOKEN = "<unk>"
 SOS_TOKEN = "<sos>"
@@ -28,7 +32,9 @@ SPECIAL_TOKENS = [
     SOS_TOKEN,
     EOS_TOKEN
 ]
+# ============================================================
 # 1. LOAD DATASET
+# ============================================================
 def load_dataset():
     if not os.path.exists(DATA_PATH):
         raise FileNotFoundError(
@@ -49,14 +55,18 @@ def load_dataset():
         f"Columns: {list(df.columns)}"
     )
     return df
+# ============================================================
 # 2. UNICODE NORMALIZATION
+# ============================================================
 def normalize_unicode(text):
     text = str(text)
     return unicodedata.normalize(
         "NFC",
         text
     )
+# ============================================================
 # 3. TEXT CLEANING
+# ============================================================
 def clean_text(
     text,
     lowercase=False
@@ -70,44 +80,64 @@ def clean_text(
     )
     # Remove leading/trailing spaces
     text = text.strip()
-    # Lowercase only English
+    # Lowercase English
     if lowercase:
         text = text.lower()
     return text
+# ============================================================
 # 4. ENGLISH TOKENIZATION
+# ============================================================
 def tokenize_english(text):
     """
+    English tokenization.
     Example:
     "How are you?"
     ->
     ["how", "are", "you", "?"]
+    "He changed his name."
+    ->
+    ["he", "changed", "his", "name", "."]
+    Numbers are kept as separate tokens.
+    Punctuation is kept as separate tokens.
     """
+    text = normalize_unicode(text)
     text = text.lower()
     tokens = re.findall(
-    r"[\u0900-\u097F]+|[0-9]+|[^\w\s]",
-    text,
-    flags=re.UNICODE
+        r"[a-z]+(?:'[a-z]+)?|[0-9]+|[^\w\s]",
+        text,
+        flags=re.UNICODE
     )
     return tokens
+# ============================================================
 # 5. HINDI TOKENIZATION
+# ============================================================
 def tokenize_hindi(text):
+    """
+    Hindi / Devanagari tokenization.
+    Example:
+    "यह एक घर है।"
+    ->
+    ["यह", "एक", "घर", "है", "।"]
+    """
     text = normalize_unicode(text)
-    # Keep Hindi/Devanagari words together.
-    # Also keep numbers and punctuation as separate tokens.
     tokens = re.findall(
         r"[\u0900-\u097F]+|[0-9]+|[^\w\s]",
         text,
         flags=re.UNICODE
     )
     return tokens
+# ============================================================
 # 6. ADD SOS / EOS
+# ============================================================
 def add_special_tokens(tokens):
     return (
         [SOS_TOKEN]
         + tokens
         + [EOS_TOKEN]
     )
+# ============================================================
 # 7. PROCESS ENGLISH SENTENCES
+# ============================================================
 def process_source_sentences(df):
     processed = []
     for text in df["English"]:
@@ -121,9 +151,13 @@ def process_source_sentences(df):
         tokens = add_special_tokens(
             tokens
         )
-        processed.append(tokens)
+        processed.append(
+            tokens
+        )
     return processed
+# ============================================================
 # 8. PROCESS HINDI SENTENCES
+# ============================================================
 def process_target_sentences(df):
     processed = []
     for text in df["Hindi"]:
@@ -137,23 +171,33 @@ def process_target_sentences(df):
         tokens = add_special_tokens(
             tokens
         )
-        processed.append(tokens)
+        processed.append(
+            tokens
+        )
     return processed
+# ============================================================
 # 9. BUILD VOCABULARY
+# ============================================================
 def build_vocabulary(
     tokenized_sentences,
     min_frequency=MIN_FREQUENCY
 ):
     counter = Counter()
     for sentence in tokenized_sentences:
-        counter.update(sentence)
+        counter.update(
+            sentence
+        )
     vocabulary = {}
+    # --------------------------------------------------------
     # Special tokens first
+    # --------------------------------------------------------
     for token in SPECIAL_TOKENS:
         vocabulary[token] = len(
             vocabulary
         )
+    # --------------------------------------------------------
     # Normal tokens
+    # --------------------------------------------------------
     for token, frequency in counter.items():
         if frequency >= min_frequency:
             if token not in vocabulary:
@@ -161,7 +205,9 @@ def build_vocabulary(
                     vocabulary
                 )
     return vocabulary
+# ============================================================
 # 10. NUMERICALIZE
+# ============================================================
 def numericalize(
     tokens,
     vocabulary
@@ -176,13 +222,16 @@ def numericalize(
         )
         for token in tokens
     ]
+# ============================================================
 # 11. PAD / TRUNCATE
+# ============================================================
 def pad_sequence(
     sequence,
     max_length,
     pad_index,
     eos_index
 ):
+    sequence = list(sequence)
     # --------------------------------------------------------
     # Truncate
     # --------------------------------------------------------
@@ -200,7 +249,9 @@ def pad_sequence(
             pad_index
         )
     return sequence
+# ============================================================
 # 12. CONVERT SENTENCES TO TENSORS
+# ============================================================
 def create_tensor_dataset(
     tokenized_sentences,
     vocabulary,
@@ -233,7 +284,9 @@ def create_tensor_dataset(
         numericalized_sentences,
         dtype=torch.long
     )
+# ============================================================
 # 13. TRAIN / VALIDATION / TEST SPLIT
+# ============================================================
 def split_dataset(df):
     train_df, temp_df = train_test_split(
         df,
@@ -271,7 +324,9 @@ def split_dataset(df):
         val_df,
         test_df
     )
+# ============================================================
 # 14. SAVE CSV SPLITS
+# ============================================================
 def save_splits(
     train_df,
     val_df,
@@ -306,7 +361,9 @@ def save_splits(
         encoding="utf-8-sig"
     )
     print("\nCSV splits saved.")
+# ============================================================
 # 15. SAVE VOCABULARY
+# ============================================================
 def save_vocabulary(
     vocabulary,
     filename
@@ -333,7 +390,9 @@ def save_vocabulary(
     print(
         f"Vocabulary saved: {path}"
     )
+# ============================================================
 # 16. SAVE TENSOR
+# ============================================================
 def save_tensor(
     tensor,
     filename
@@ -353,7 +412,9 @@ def save_tensor(
     print(
         f"Tensor saved: {path}"
     )
+# ============================================================
 # 17. DISPLAY TOKENIZATION EXAMPLES
+# ============================================================
 def display_examples(
     train_df,
     source_tokens,
@@ -396,7 +457,27 @@ def display_examples(
             "Hindi IDs:",
             target_tensor[i].tolist()
         )
-# 18. MAIN
+# ============================================================
+# 18. TOKENIZATION SANITY CHECK
+# ============================================================
+def tokenization_sanity_check():
+    print("\n" + "=" * 70)
+    print("TOKENIZATION SANITY CHECK")
+    print("=" * 70)
+    examples = [
+        "He changed his name in his writings because of the English people.",
+        "Poornaprajna is awareness and understanding of the Whole.",
+        "Public were enraged at the punitive measures taken by the administration."
+    ]
+    for text in examples:
+        tokens = tokenize_english(text)
+        print("\nEnglish:")
+        print(text)
+        print("Tokens:")
+        print(tokens)
+# ============================================================
+# 19. MAIN
+# ============================================================
 def main():
     # --------------------------------------------------------
     # Step 1: Load dataset
@@ -419,7 +500,11 @@ def main():
         test_df
     )
     # --------------------------------------------------------
-    # Step 4: Tokenize training data
+    # Step 4: Tokenization sanity check
+    # --------------------------------------------------------
+    tokenization_sanity_check()
+    # --------------------------------------------------------
+    # Step 5: Tokenize training data
     # --------------------------------------------------------
     print("\n" + "=" * 70)
     print("TOKENIZING TRAINING DATA")
@@ -435,7 +520,7 @@ def main():
         )
     )
     # --------------------------------------------------------
-    # Step 5: Build vocabularies
+    # Step 6: Build vocabularies
     # --------------------------------------------------------
     vocabulary_source = (
         build_vocabulary(
@@ -456,7 +541,7 @@ def main():
         f"{len(vocabulary_target)}"
     )
     # --------------------------------------------------------
-    # Step 6: Save vocabularies
+    # Step 7: Save vocabularies
     # --------------------------------------------------------
     save_vocabulary(
         vocabulary_source,
@@ -467,7 +552,7 @@ def main():
         "target_vocab.json"
     )
     # --------------------------------------------------------
-    # Step 7: Create training tensors
+    # Step 8: Create training tensors
     # --------------------------------------------------------
     print("\n" + "=" * 70)
     print("CREATING TRAINING TENSORS")
@@ -487,7 +572,7 @@ def main():
         )
     )
     # --------------------------------------------------------
-    # Step 8: Validation tensors
+    # Step 9: Validation tensors
     # --------------------------------------------------------
     val_source_tokens = (
         process_source_sentences(
@@ -514,7 +599,7 @@ def main():
         )
     )
     # --------------------------------------------------------
-    # Step 9: Test tensors
+    # Step 10: Test tensors
     # --------------------------------------------------------
     test_source_tokens = (
         process_source_sentences(
@@ -541,7 +626,7 @@ def main():
         )
     )
     # --------------------------------------------------------
-    # Step 10: Save tensors
+    # Step 11: Save tensors
     # --------------------------------------------------------
     save_tensor(
         train_source_tensor,
@@ -568,7 +653,7 @@ def main():
         "test_target.pt"
     )
     # --------------------------------------------------------
-    # Step 11: Display examples
+    # Step 12: Display examples
     # --------------------------------------------------------
     display_examples(
         train_df,
@@ -578,7 +663,7 @@ def main():
         train_target_tensor
     )
     # --------------------------------------------------------
-    # Step 12: Print tensor shapes
+    # Step 13: Print tensor shapes
     # --------------------------------------------------------
     print("\n" + "=" * 70)
     print("TENSOR SHAPES")
@@ -647,6 +732,8 @@ def main():
     print(
         "artifacts/test_target.pt"
     )
+# ============================================================
 # RUN
+# ============================================================
 if __name__ == "__main__":
     main()

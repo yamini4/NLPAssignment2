@@ -8,5 +8,6 @@
     "average_word_accuracy_percent": 0.2693269591267227,
     "average_generated_length": 8.934,
     "average_reference_length": 13.495,
-    "unknown_token_percentage": 88.40385045892097
+    "unknown_token_percentage": 88.40385045892097,
+    "source_unknown_token_percentage": 85.04868913857678
 }
