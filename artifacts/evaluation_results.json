@@ -1,13 +1,13 @@
 {
     "test_samples": 1000,
-    "bleu_score": 0.023591843076988684,
-    "bleu_score_percent": 2.3591843076988686,
-    "exact_match_accuracy": 0.0,
-    "exact_match_accuracy_percent": 0.0,
-    "average_word_accuracy": 0.05569368934530737,
-    "average_word_accuracy_percent": 5.569368934530737,
-    "average_generated_length": 11.255,
+    "bleu_score": 0.027373293232215684,
+    "bleu_score_percent": 2.7373293232215685,
+    "exact_match_accuracy": 0.003,
+    "exact_match_accuracy_percent": 0.3,
+    "average_word_accuracy": 0.06480020756232639,
+    "average_word_accuracy_percent": 6.480020756232639,
+    "average_generated_length": 11.276,
     "average_reference_length": 13.495,
-    "unknown_token_percentage": 39.91115059973345,
+    "unknown_token_percentage": 40.90102873359348,
     "source_unknown_token_percentage": 6.771535580524344
 }
