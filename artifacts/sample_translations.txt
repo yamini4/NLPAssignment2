@@ -24,9 +24,9 @@ Reference Hindi:
 यह सुकन्नासा और द्वार - दील जैसे वास्तुशिल्प सदस्यों पर चित्रित एक पसंदीदा मध्ययुगीन रूप है।
 
 Predicted Hindi:
-<unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+यह एक <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
 
-Word Accuracy: 0.0000
+Word Accuracy: 0.0625
 
 Example 3
 ----------------------------------------------------------------------
@@ -37,9 +37,9 @@ Reference Hindi:
 उन्होंने पारम्पारिक व्यायामों का लगकर अभ्यास किया और पौष्टिक आहार की सब दिन सुविधा न रहते भी, शरीर को सदा सुस्वस्थ रखा।
 
 Predicted Hindi:
-<unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+उन्होंने <unk> के <unk> के <unk> और <unk> और <unk> और <unk> और <unk> <unk>, और <unk> <unk> <unk> <unk>, <unk>, <unk> <unk> <unk> <unk>
 
-Word Accuracy: 0.0000
+Word Accuracy: 0.0435
 
 Example 4
 ----------------------------------------------------------------------
@@ -63,9 +63,9 @@ Reference Hindi:
 पथ को कमांड
 
 Predicted Hindi:
-<unk>
+<unk> को <unk> को <unk>
 
-Word Accuracy: 0.0000
+Word Accuracy: 0.3333
 
 Example 6
 ----------------------------------------------------------------------
@@ -76,9 +76,9 @@ Reference Hindi:
 पशुपतिनाथ में मैसूर के पुजारी होते हैं जिसे अब कर्नाटक कहा जाता है।
 
 Predicted Hindi:
-<unk> <unk> <unk> <unk> <unk>
+<unk> में <unk> में, <unk>, <unk>, <unk>
 
-Word Accuracy: 0.0000
+Word Accuracy: 0.0769
 
 Example 7
 ----------------------------------------------------------------------
@@ -89,7 +89,7 @@ Reference Hindi:
 दिल्ली दरबार
 
 Predicted Hindi:
-<unk>
+<unk> <unk>
 
 Word Accuracy: 0.0000
 
@@ -115,9 +115,9 @@ Reference Hindi:
 यह प्रकृति और प्राकृतिक संसाधनों के उनके पक्के उपयोग के साथ इन समुदायों के अंतरंग संबंध का प्रमाण देता है।
 
 Predicted Hindi:
-<unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+यह <unk> के के के के लिए और के के के लिए के लिए के लिए के लिए <unk>
 
-Word Accuracy: 0.0000
+Word Accuracy: 0.1500
 
 Example 10
 ----------------------------------------------------------------------
@@ -128,7 +128,7 @@ Reference Hindi:
 पता पुस्तिका जोड़ें
 
 Predicted Hindi:
-<unk>
+जोड़ें
 
 Word Accuracy: 0.0000
 
@@ -141,7 +141,7 @@ Reference Hindi:
 वह खड़खड़ाने वाली क्या है
 
 Predicted Hindi:
-<unk>
+क्या क्या है?
 
 Word Accuracy: 0.0000
 
@@ -154,7 +154,7 @@ Reference Hindi:
 बालक रवि बड़ी तेजी से बढ़ रहा था और वह इन वर्षों में कभी निष्क्रिय नहीं बैठा था - - स्वयं महर्षि और घर के दूसरे बुजुर्ग उसके भविष्य को लेकर बड़े चिंतित थे।
 
 Predicted Hindi:
-<unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+<unk> में <unk> और <unk> <unk> और <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
 
 Word Accuracy: 0.0000
 
@@ -167,7 +167,7 @@ Reference Hindi:
 न्गांदो अब अपनी मदद करने के लिए खरहे को धन्यवाद देने को पानी से निकलकर किनारे पर आया कि उसकी मदद से वह अपने छपरे में फिर वापस आ पाया।
 
 Predicted Hindi:
-<unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+<unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
 
 Word Accuracy: 0.0000
 
@@ -180,9 +180,9 @@ Reference Hindi:
 डेलिगेट मीटिंग ( ) . . .
 
 Predicted Hindi:
-<unk>
+<unk> <unk> ( ) . . .
 
-Word Accuracy: 0.0000
+Word Accuracy: 0.7143
 
 Example 15
 ----------------------------------------------------------------------
@@ -193,9 +193,9 @@ Reference Hindi:
 जिस दिन हिला डालेगी हिला डालनेवाले घटना,
 
 Predicted Hindi:
-<unk>
+एक दिन <unk> <unk> <unk> <unk> <unk>
 
-Word Accuracy: 0.0000
+Word Accuracy: 0.1250
 
 Example 16
 ----------------------------------------------------------------------
@@ -206,9 +206,9 @@ Reference Hindi:
 और ये लोग कहते हैं कि जब हम ज़मीन में नापैद हो जाएँगे तो क्या हम फिर नया जन्म लेगे ( क़यामत से नही ) बल्कि ये लोग अपने परवरदिगार के ( सामने हुज़ूरी ही ) से इन्कार रखते हैं
 
 Predicted Hindi:
-<unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+और ( कहा, " क्या हम हम <unk> में हम <unk> <unk> <unk> <unk> तो हम तो हम <unk> में <unk> में <unk> में <unk> "
 
-Word Accuracy: 0.0000
+Word Accuracy: 0.0750
 
 Example 17
 ----------------------------------------------------------------------
@@ -219,7 +219,7 @@ Reference Hindi:
 जीवनी
 
 Predicted Hindi:
-<unk>
+<unk> इतिहास
 
 Word Accuracy: 0.0000
 
@@ -232,7 +232,7 @@ Reference Hindi:
 इस बात का पता लगाना कि निर्गम से प्राप्त निधियों का उपयोग प्रस्ताव दस्तावेज में यथानिर्दिष्ट प्रयोजनों और तरीके से किया गया है।
 
 Predicted Hindi:
-<unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+<unk> <unk> के के के के लिए के लिए के लिए के लिए के लिए के लिए के लिए में <unk> के लिए में <unk>
 
 Word Accuracy: 0.0000
 
@@ -245,7 +245,7 @@ Reference Hindi:
 प्रासूतिक आक्षेप, प्रसव के दौरान पड़ने वाला दौरा
 
 Predicted Hindi:
-<unk>
+<unk> <unk>
 
 Word Accuracy: 0.0000
 
@@ -258,6 +258,6 @@ Reference Hindi:
 सूची नाम से संपर्क करें
 
 Predicted Hindi:
-<unk>
+सूची सूची सूची
 
-Word Accuracy: 0.0000
+Word Accuracy: 0.2000
