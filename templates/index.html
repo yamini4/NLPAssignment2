@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>English to Hindi Translator</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(
+                135deg,
+                #667eea,
+                #764ba2
+            );
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: white;
+            border-radius: 18px;
+            padding: 35px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: #333;
+            font-size: 32px;
+        }
+
+        .header p {
+            margin-top: 10px;
+            color: #666;
+            font-size: 16px;
+        }
+
+        .language-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .language {
+            background: #667eea;
+            color: white;
+            padding: 10px 22px;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+
+        .arrow {
+            font-size: 25px;
+            color: #555;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: #444;
+            margin-bottom: 8px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            resize: vertical;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 16px;
+            font-family: Arial, Helvetica, sans-serif;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #667eea;
+        }
+
+        .button-container {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 13px 35px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #5568d8;
+            transform: translateY(-1px);
+        }
+
+        .translation-box {
+            margin-top: 20px;
+        }
+
+        .translation {
+            width: 100%;
+            min-height: 150px;
+            background: #f7f7f7;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 18px;
+            line-height: 1.7;
+            color: #222;
+        }
+
+        .empty-message {
+            color: #999;
+            font-size: 16px;
+        }
+
+        .model-info {
+            margin-top: 25px;
+            padding: 15px;
+            background: #f4f4f4;
+            border-radius: 10px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #999;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .container {
+                padding: 22px;
+            }
+
+            .header h1 {
+                font-size: 25px;
+            }
+
+            .language-box {
+                gap: 8px;
+            }
+
+            .language {
+                padding: 8px 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>
+            English → Hindi Translator
+        </h1>
+
+        <p>
+            Neural Machine Translation using
+            Encoder-Decoder LSTM with Attention
+        </p>
+
+    </div>
+
+
+    <!-- LANGUAGE -->
+
+    <div class="language-box">
+
+        <div class="language">
+            English
+        </div>
+
+        <div class="arrow">
+            →
+        </div>
+
+        <div class="language">
+            हिंदी
+        </div>
+
+    </div>
+
+
+    <!-- TRANSLATION FORM -->
+
+    <form method="POST">
+
+        <label for="english_text">
+            Enter English Text
+        </label>
+
+        <textarea
+            id="english_text"
+            name="english_text"
+            placeholder="Type an English sentence here..."
+            required
+        >{{ english_text }}</textarea>
+
+
+        <div class="button-container">
+
+            <button type="submit">
+                Translate to Hindi
+            </button>
+
+        </div>
+
+    </form>
+
+
+    <!-- OUTPUT -->
+
+    <div class="translation-box">
+
+        <label>
+            Hindi Translation
+        </label>
+
+        <div class="translation">
+
+            {% if hindi_translation %}
+
+                {{ hindi_translation }}
+
+            {% else %}
+
+                <span class="empty-message">
+                    Your Hindi translation will appear here.
+                </span>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- MODEL INFORMATION -->
+
+    <div class="model-info">
+
+        <strong>Model:</strong>
+        Encoder-Decoder LSTM with Attention
+        &nbsp; | &nbsp;
+
+        <strong>Direction:</strong>
+        English → Hindi
+
+    </div>
+
+
+    <div class="footer">
+
+        Neural Machine Translation Project
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
