@@ -1,0 +1,5 @@
+This is a simple English to Hindi translation test.
+India is a beautiful country.
+I am learning natural language processing.
+Machine translation converts text from one language to another.
+Thank you for using the English to Hindi translator.
