@@ -41,12 +41,12 @@ EOS_TOKEN = "<eos>"
 # PAGE CONFIGURATION
 # ============================================================
 
+
 st.set_page_config(
     page_title="English to Hindi Translator",
-    page_icon="🇮🇳",
+    page_icon="🌐",
     layout="centered"
 )
-
 
 # ============================================================
 # LOAD VOCABULARY
@@ -371,7 +371,7 @@ except Exception as error:
 # USER INTERFACE
 # ============================================================
 
-st.title("🇮🇳 English → Hindi Translator")
+st.title("🌍 English → Hindi Translator")
 
 st.write(
     "Neural Machine Translation using "
